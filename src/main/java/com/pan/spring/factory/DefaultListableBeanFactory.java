@@ -2,6 +2,7 @@ package com.pan.spring.factory;
 
 import com.pan.spring.config.BeanDefinition;
 import com.pan.spring.exception.BeansException;
+import com.pan.spring.factory.register.BeanDefinitionRegistry;
 
 import java.util.HashMap;
 import java.util.Map;

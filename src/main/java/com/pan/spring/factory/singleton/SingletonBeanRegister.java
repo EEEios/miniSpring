@@ -6,4 +6,5 @@ package com.pan.spring.factory.singleton;
 public interface SingletonBeanRegister {
 
     Object getSingleton(String beanName);
+
 }

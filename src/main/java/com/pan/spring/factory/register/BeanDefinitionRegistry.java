@@ -1,4 +1,4 @@
-package com.pan.spring.factory;
+package com.pan.spring.factory.register;
 
 import com.pan.spring.config.BeanDefinition;
 
