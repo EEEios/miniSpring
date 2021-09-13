@@ -3,6 +3,9 @@ package com.pan.spring.factory.singleton;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 单例 beanFactory 默认实现
+ */
 public class DefaultSingletonBeanRegistry implements SingletonBeanRegister{
 
     private Map<String, Object> singletonObjects = new HashMap<>();
