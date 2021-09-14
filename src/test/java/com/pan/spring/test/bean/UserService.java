@@ -3,25 +3,27 @@ package com.pan.spring.test.bean;
 
 public class UserService {
 
-    private String name;
+    private String id;
 
-    public UserService() {
-        System.out.println("[UserService] 调用默认无参构造");
-    }
-
-    public UserService(String name) {
-        System.out.println("[UserService] 调用构造：[String name]");
-        this.name = name;
-    }
+    private UserInfo userInfo;
 
     public void queryUserInfo(){
-        System.out.println("查询用户信息");
+        System.out.println("查询用户信息" + userInfo.checkInfo(id));
     }
 
-    @Override
-    public String toString(){
-        final StringBuilder sb = new StringBuilder("");
-        sb.append(" ").append(name);
-        return sb.toString();
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public UserInfo getUserInfo() {
+        return userInfo;
+    }
+
+    public void setUserInfo(UserInfo userInfo) {
+        this.userInfo = userInfo;
     }
 }
