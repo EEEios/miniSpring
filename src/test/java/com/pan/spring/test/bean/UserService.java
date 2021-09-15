@@ -1,7 +1,10 @@
 package com.pan.spring.test.bean;
 
 
-public class UserService {
+import com.pan.spring.factory.DisposableBean;
+import com.pan.spring.factory.InitializingBean;
+
+public class UserService implements InitializingBean, DisposableBean {
 
     private String id;
 
@@ -10,6 +13,16 @@ public class UserService {
     private String location;
 
     private UserInfo userInfo;
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        System.out.println("执行：UserService.afterPropertiesSet");
+    }
+
+    @Override
+    public void destroy() throws Exception {
+        System.out.println("执行：UserService.destroy");
+    }
 
     public void queryUserInfo(){
         System.out.println("查询用户信息: " + userInfo.checkInfo(id) + "," + company + "," + location);

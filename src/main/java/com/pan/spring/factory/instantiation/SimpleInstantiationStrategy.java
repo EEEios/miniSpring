@@ -2,6 +2,7 @@ package com.pan.spring.factory.instantiation;
 
 import com.pan.spring.config.BeanDefinition;
 import com.pan.spring.exception.BeansException;
+import com.pan.spring.factory.InstantiationStrategy;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -9,7 +10,7 @@ import java.lang.reflect.InvocationTargetException;
 /**
  * 通过反射实现的简单的实例化操作
  */
-public class SimpleInstantiationStrategy implements InstantiationStrategy{
+public class SimpleInstantiationStrategy implements InstantiationStrategy {
 
     @Override
     public Object instance(BeanDefinition beanDefinition, String beanName,

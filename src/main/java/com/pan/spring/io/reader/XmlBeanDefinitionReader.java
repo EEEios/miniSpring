@@ -6,7 +6,7 @@ import com.pan.spring.config.BeanDefinition;
 import com.pan.spring.config.BeanReference;
 import com.pan.spring.config.PropertyValue;
 import com.pan.spring.exception.BeansException;
-import com.pan.spring.factory.register.BeanDefinitionRegistry;
+import com.pan.spring.factory.BeanDefinitionRegistry;
 import com.pan.spring.io.Resource;
 import com.pan.spring.io.ResourceLoader;
 import org.w3c.dom.Document;
@@ -73,6 +73,8 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader{
             String id = bean.getAttribute("id");
             String name = bean.getAttribute("name");
             String className = bean.getAttribute("class");
+            String initMethod = bean.getAttribute("init-method");
+            String destroyMethodName = bean.getAttribute("destroy-method");
 
             // 获取 Class，方便获取类中的名称
             Class<?> clazz = Class.forName(className);

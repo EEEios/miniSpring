@@ -1,6 +1,6 @@
 package com.pan.spring.context.suppot;
 
-import com.pan.spring.factory.DefaultListableBeanFactory;
+import com.pan.spring.factory.support.DefaultListableBeanFactory;
 import com.pan.spring.io.reader.XmlBeanDefinitionReader;
 
 public abstract class AbstractXmlApplicationContext extends AbstractRefreshableApplicationContext{

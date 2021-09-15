@@ -1,7 +1,7 @@
 package com.pan.spring.io;
 
 import com.pan.spring.exception.BeansException;
-import com.pan.spring.factory.register.BeanDefinitionRegistry;
+import com.pan.spring.factory.BeanDefinitionRegistry;
 
 /**
  * 使用 Reader 首先需要绑定 Registry，使之能够读取 bean 后进行注册

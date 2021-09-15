@@ -1,4 +1,4 @@
-package com.pan.spring.factory;
+package com.pan.spring.factory.support;
 
 import com.pan.spring.config.BeanDefinition;
 import com.pan.spring.exception.BeansException;

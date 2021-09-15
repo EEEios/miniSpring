@@ -1,6 +1,6 @@
 package com.pan.spring.io.reader;
 
-import com.pan.spring.factory.register.BeanDefinitionRegistry;
+import com.pan.spring.factory.BeanDefinitionRegistry;
 import com.pan.spring.io.BeanDefinitionReader;
 import com.pan.spring.io.ResourceLoader;
 import com.pan.spring.io.loader.DefaultResourceLoader;
