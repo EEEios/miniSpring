@@ -1,4 +1,4 @@
-package com.pan.spring.context;
+package com.pan.spring.context.suppot;
 
 import com.pan.spring.factory.DefaultListableBeanFactory;
 import com.pan.spring.io.reader.XmlBeanDefinitionReader;

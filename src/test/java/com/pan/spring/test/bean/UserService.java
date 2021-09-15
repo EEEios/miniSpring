@@ -12,7 +12,7 @@ public class UserService {
     private UserInfo userInfo;
 
     public void queryUserInfo(){
-        System.out.println("查询用户信息" + userInfo.checkInfo(id) + "," + company + "," + location);
+        System.out.println("查询用户信息: " + userInfo.checkInfo(id) + "," + company + "," + location);
     }
 
     public String getId() {

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+
+    <bean id="userInfo" class="com.pan.spring.test.bean.UserInfo"/>
+
+    <bean id="userService" class="com.pan.spring.test.bean.UserService">
+        <property name="id" value="1"/>
+        <property name="company" value="腾讯"/>
+        <property name="location" value="深圳"/>
+        <property name="userInfo" ref="userInfo"/>
+    </bean>
+
+    <bean class="com.pan.spring.test.config.MyBeanProcessor"/>
+    <bean class="com.pan.spring.test.config.MyBeanFactoryPostProcessor"/>
+
+</beans>

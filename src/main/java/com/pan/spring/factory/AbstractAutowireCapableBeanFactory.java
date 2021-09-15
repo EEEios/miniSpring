@@ -33,6 +33,8 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
             bean = createBeanInstance(beanDefinition, beanName, args);
             // 注入属性
             applyPropertyValues(beanName, bean, beanDefinition);
+            // 执行 Bean 初始化和 BeanPostProcessor 的前置/后置处理方法
+            bean = initializeBean(beanName, bean, beanDefinition);
         } catch (Exception e) {
             throw new BeansException("Failed to instantiate bean", e);
         }
@@ -114,6 +116,6 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
     @Override
     public Object applyBeanPostProcessorsAfterInitialization(Object existingBean, String beanName) throws BeansException {
-        return null;
+        return existingBean;
     }
 }

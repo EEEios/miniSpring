@@ -1,5 +1,6 @@
-package com.pan.spring.context;
+package com.pan.spring.context.suppot;
 
+import com.pan.spring.context.ConfigurableApplicationContext;
 import com.pan.spring.exception.BeansException;
 import com.pan.spring.factory.support.ConfigurableListableBeanFactory;
 import com.pan.spring.io.loader.DefaultResourceLoader;
