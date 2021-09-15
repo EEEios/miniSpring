@@ -3,12 +3,20 @@ package com.pan.spring.factory;
 import com.pan.spring.config.BeanDefinition;
 import com.pan.spring.exception.BeansException;
 import com.pan.spring.factory.singleton.DefaultSingletonBeanRegistry;
+import com.pan.spring.factory.support.ConfigurableBeanFactory;
+import com.pan.spring.processor.BeanPostProcessor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 接入了 DefaultSingletonRegistry 和 BeanFactory
  * 目前该类能够根据 BeanFactory 接口标准提供单例 Bean 的获取方法
+ * - Spring06:接入上下文操作 beanPostProcessor
  */
-public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry implements BeanFactory {
+public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry implements ConfigurableBeanFactory {
+
+    private final List<BeanPostProcessor> beanPostProcessors = new ArrayList<>();
 
     @Override
     public Object getBean(String name) throws BeansException {
@@ -41,4 +49,14 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
     protected abstract BeanDefinition getBeanDefinition(String beanName) throws BeansException;
 
     protected abstract Object createBean(String beanName, BeanDefinition beanDefinition, Object args[]) throws BeansException;
+
+    @Override
+    public void addBeanPostProcessor(BeanPostProcessor beanPostProcessor) {
+        this.beanPostProcessors.remove(beanPostProcessor);
+        this.beanPostProcessors.add(beanPostProcessor);
+    }
+
+    public List<BeanPostProcessor> getBeanPostProcessors() {
+        return beanPostProcessors;
+    }
 }
