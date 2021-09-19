@@ -5,12 +5,19 @@ import java.util.Map;
 
 public class UserInfo {
 
-    private static Map<String, String> map = new HashMap<>();
+    private Map<String, String> map;
 
-    static {
+    public void initDataMethod() {
+        System.out.println("执行：init-method");
+        map = new HashMap<>();
         map.put("1", "pan");
         map.put("2", "wan");
         map.put("3", "lin");
+    }
+
+    public void destroyDataMethod(){
+        System.out.println("执行：destroy-method");
+        map.clear();
     }
 
     public String checkInfo(String id){

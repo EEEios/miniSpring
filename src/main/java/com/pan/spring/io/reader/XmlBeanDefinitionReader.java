@@ -86,10 +86,12 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader{
             }
 
             BeanDefinition beanDefinition = new BeanDefinition(clazz);
+            beanDefinition.setInitMethodName(initMethod);
+            beanDefinition.setDestroyMethodName(destroyMethodName);
 
             for (int j=0; j < bean.getChildNodes().getLength(); j++){
                 // 判断元素
-                if (!(childNodes.item(j) instanceof Element)) continue;
+                if (!(bean.getChildNodes().item(j) instanceof Element)) continue;
                 // 判断对象
                 if (!"property".equals(bean.getChildNodes().item(j).getNodeName())) continue;
                 // 解析标签：property
@@ -104,7 +106,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader{
                 beanDefinition.getPropertyValues().addPropertyValue(propertyValue);
             }
             if (getRegistry().containsBeanDefinition(beanName)){
-                throw new BeansException("[Error] duplicate beanname detected : " + beanName);
+                throw new BeansException("[Error] duplicate bean name detected : " + beanName);
             }
             getRegistry().registerBeanDefinition(beanName, beanDefinition);
         }

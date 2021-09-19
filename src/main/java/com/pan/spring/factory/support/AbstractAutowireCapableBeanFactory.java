@@ -10,6 +10,10 @@ import com.pan.spring.exception.BeansException;
 import com.pan.spring.factory.DisposableBean;
 import com.pan.spring.factory.DisposableBeanAdapter;
 import com.pan.spring.factory.InitializingBean;
+import com.pan.spring.factory.aware.Aware;
+import com.pan.spring.factory.aware.BeanClassLoaderAware;
+import com.pan.spring.factory.aware.BeanFactoryAware;
+import com.pan.spring.factory.aware.BeanNameAware;
 import com.pan.spring.factory.instantiation.CglibSubclassingInstantiationStrategy;
 import com.pan.spring.factory.InstantiationStrategy;
 import com.pan.spring.processor.BeanPostProcessor;
@@ -112,6 +116,17 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
      */
     public Object initializeBean(String beanName, Object bean, BeanDefinition beanDefinition) {
 
+        if (bean instanceof Aware) {
+            if (bean instanceof BeanFactoryAware) {
+                ((BeanFactoryAware) bean).setBeanFactory(this);
+            }
+            if (bean instanceof BeanClassLoaderAware) {
+                ((BeanClassLoaderAware) bean).setBeanClassLoader(getClassLoader());
+            }
+            if (bean instanceof BeanNameAware) {
+                ((BeanNameAware) bean).setBeanName(beanName);
+            }
+        }
         // 对文件中定义的 BeanDefinition 进行自定义操作
         Object wrappedBean = applyBeanPostProcessorsBeforeInitialization(bean, beanName);
         try {

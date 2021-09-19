@@ -1,10 +1,18 @@
 package com.pan.spring.test.bean;
 
 
-import com.pan.spring.factory.DisposableBean;
-import com.pan.spring.factory.InitializingBean;
+import com.pan.spring.context.ApplicationContext;
+import com.pan.spring.exception.BeansException;
+import com.pan.spring.factory.BeanFactory;
+import com.pan.spring.factory.aware.ApplicationContextAware;
+import com.pan.spring.factory.aware.BeanClassLoaderAware;
+import com.pan.spring.factory.aware.BeanFactoryAware;
+import com.pan.spring.factory.aware.BeanNameAware;
 
-public class UserService implements InitializingBean, DisposableBean {
+public class UserService implements BeanNameAware, BeanClassLoaderAware, ApplicationContextAware, BeanFactoryAware {
+
+    private ApplicationContext applicationContext;
+    private BeanFactory beanFactory;
 
     private String id;
 
@@ -15,13 +23,23 @@ public class UserService implements InitializingBean, DisposableBean {
     private UserInfo userInfo;
 
     @Override
-    public void afterPropertiesSet() throws Exception {
-        System.out.println("执行：UserService.afterPropertiesSet");
+    public void setApplication(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
     }
 
     @Override
-    public void destroy() throws Exception {
-        System.out.println("执行：UserService.destroy");
+    public void setBeanClassLoader(ClassLoader classLoader) {
+        System.out.println("ClassLoader：" + classLoader);
+    }
+
+    @Override
+    public void setBeanFactory(BeanFactory beanFactory) {
+        this.beanFactory = beanFactory;
+    }
+
+    @Override
+    public void setBeanName(String name) {
+        System.out.println("Bean Name is：" + name);
     }
 
     public void queryUserInfo(){

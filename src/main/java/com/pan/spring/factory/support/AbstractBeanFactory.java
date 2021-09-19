@@ -5,6 +5,7 @@ import com.pan.spring.exception.BeansException;
 import com.pan.spring.factory.singleton.DefaultSingletonBeanRegistry;
 import com.pan.spring.factory.support.ConfigurableBeanFactory;
 import com.pan.spring.processor.BeanPostProcessor;
+import com.pan.spring.util.ClassUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,8 @@ import java.util.List;
  * - Spring06:接入上下文操作 beanPostProcessor
  */
 public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry implements ConfigurableBeanFactory {
+
+    private ClassLoader classLoader = ClassUtils.getDefaultClassLoader();
 
     private final List<BeanPostProcessor> beanPostProcessors = new ArrayList<>();
 
@@ -59,4 +62,6 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
     public List<BeanPostProcessor> getBeanPostProcessors() {
         return beanPostProcessors;
     }
+
+    public ClassLoader getClassLoader(){return classLoader;}
 }
