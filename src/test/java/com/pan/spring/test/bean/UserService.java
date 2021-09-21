@@ -20,7 +20,7 @@ public class UserService implements BeanNameAware, BeanClassLoaderAware, Applica
 
     private String location;
 
-    private UserInfo userInfo;
+    private IUserDao userInfo;
 
     @Override
     public void setApplication(ApplicationContext applicationContext) throws BeansException {
@@ -54,11 +54,11 @@ public class UserService implements BeanNameAware, BeanClassLoaderAware, Applica
         this.id = id;
     }
 
-    public UserInfo getUserInfo() {
+    public IUserDao getUserInfo() {
         return userInfo;
     }
 
-    public void setUserInfo(UserInfo userInfo) {
+    public void setUserInfo(IUserDao userInfo) {
         this.userInfo = userInfo;
     }
 

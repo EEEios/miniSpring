@@ -8,7 +8,6 @@ import com.pan.spring.config.PropertyValue;
 import com.pan.spring.config.PropertyValues;
 import com.pan.spring.exception.BeansException;
 import com.pan.spring.factory.DisposableBean;
-import com.pan.spring.factory.DisposableBeanAdapter;
 import com.pan.spring.factory.InitializingBean;
 import com.pan.spring.factory.aware.Aware;
 import com.pan.spring.factory.aware.BeanClassLoaderAware;
@@ -52,7 +51,9 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
          * 注册 Bean 的销毁方法
          */
         registerDisposableBeanIfNecessary(beanName, bean, beanDefinition);
-        addSingleton(beanName, bean);
+        if (beanDefinition.isSingleton()){
+            addSingleton(beanName, bean);
+        }
         return bean;
     }
 
@@ -73,6 +74,9 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
 
     protected void registerDisposableBeanIfNecessary(String beanName, Object bean, BeanDefinition beanDefinition) {
+        // 如果作用域不是 singleton ，则不执行销毁方法
+        if (!beanDefinition.isSingleton()) return;
+        // 调用销毁方法
         if (bean instanceof DisposableBean || StrUtil.isNotEmpty(beanDefinition.getDestroyMethodName())) {
             registerDisposableBean(beanName, new DisposableBeanAdapter(bean, beanName, beanDefinition));
         }
@@ -116,6 +120,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
      */
     public Object initializeBean(String beanName, Object bean, BeanDefinition beanDefinition) {
 
+        // 检查 Aware 相关接口
         if (bean instanceof Aware) {
             if (bean instanceof BeanFactoryAware) {
                 ((BeanFactoryAware) bean).setBeanFactory(this);
@@ -127,6 +132,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
                 ((BeanNameAware) bean).setBeanName(beanName);
             }
         }
+
         // 对文件中定义的 BeanDefinition 进行自定义操作
         Object wrappedBean = applyBeanPostProcessorsBeforeInitialization(bean, beanName);
         try {

@@ -2,8 +2,7 @@ package com.pan.spring.factory.support;
 
 import com.pan.spring.config.BeanDefinition;
 import com.pan.spring.exception.BeansException;
-import com.pan.spring.factory.singleton.DefaultSingletonBeanRegistry;
-import com.pan.spring.factory.support.ConfigurableBeanFactory;
+import com.pan.spring.factory.FactoryBean;
 import com.pan.spring.processor.BeanPostProcessor;
 import com.pan.spring.util.ClassUtils;
 
@@ -13,9 +12,10 @@ import java.util.List;
 /**
  * 接入了 DefaultSingletonRegistry 和 BeanFactory
  * 目前该类能够根据 BeanFactory 接口标准提供单例 Bean 的获取方法
- * - Spring06:接入上下文操作 beanPostProcessor
+ * - Spring06: 接入上下文操作 beanPostProcessor
+ * - spring09: 新增对 FactoryBean 的支持
  */
-public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry implements ConfigurableBeanFactory {
+public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport implements ConfigurableBeanFactory {
 
     private ClassLoader classLoader = ClassUtils.getDefaultClassLoader();
 
@@ -40,13 +40,29 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
      * getBean() 方法动作
      */
     protected <T>T doGetBean(final String name, final Object[] args) {
-        Object bean = getSingleton(name);
-        if (bean != null){
-            return (T)bean;
+        Object sharedInstance = getSingleton(name);
+        if (sharedInstance != null){
+            // 如果是 FactoryBean，则需要调用 FactoryBean#getObject
+            return (T)getObjectForBeanInstance(sharedInstance, name);
         }
 
         BeanDefinition beanDefinition = getBeanDefinition(name);
-        return (T) createBean(name, beanDefinition, args);
+        Object bean = createBean(name, beanDefinition, args);
+        return (T) getObjectForBeanInstance(bean, name);
+    }
+
+    private Object getObjectForBeanInstance(Object beanInstance, String beanName) {
+        if (!(beanInstance instanceof FactoryBean)){
+            return  beanInstance;
+        }
+        // 查询FactoryBean 缓存
+        Object object = getCacheObjectForFactoryBean(beanName);
+        // 返回 null 为查询失败
+        if (object == null){
+            FactoryBean<?> factoryBean = (FactoryBean<?>) beanInstance;
+            object = getObjectFromFactoryBean(factoryBean, beanName);
+        }
+        return object;
     }
 
     protected abstract BeanDefinition getBeanDefinition(String beanName) throws BeansException;
