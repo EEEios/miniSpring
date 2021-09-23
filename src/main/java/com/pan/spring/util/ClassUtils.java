@@ -17,4 +17,13 @@ public class ClassUtils {
         return cl;
     }
 
+    public static boolean isCglibProxyClass(Class<?> clazz) {
+        return (clazz != null && isCglibProxyClassName(clazz.getName()));
+    }
+
+    // TODO 为何需要判断名称中含有$$
+    public static boolean isCglibProxyClassName(String className) {
+        return (className != null && className.contains("$$"));
+    }
+
 }

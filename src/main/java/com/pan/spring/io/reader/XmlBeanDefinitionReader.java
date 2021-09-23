@@ -33,7 +33,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader{
                 doLoadBeanDefinition(inputStream);
             }
         } catch (IOException | ClassNotFoundException e) {
-            throw new BeansException("[Error] Failed to parse XML document from" + resource, e);
+            throw new BeansException("[Error] Failed to parse XML document from " + resource, e);
         }
     }
 

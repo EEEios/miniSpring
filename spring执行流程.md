@@ -31,19 +31,30 @@
 5. registerBeanPostProcessor：实例化 BeanPostProcessor 以在进行 Bean 的初始化时调用
 
     - `factory.getBeansOfType(BeanPostProcessor.class)`
-
     - `factory.addBeanPostProcessor(postProcessor);`
 
-      
+    
 
-6. preInstantiateSingletons：实例化 Bean 对象
+6. 初始化事件广播器
+
+    传入工厂构造事件广播器
+
+7. 注册监听器
+
+    注册所有的监听者到广播器中
+
+    > 通过 publishedEvent 推送事件，推送的事件会经由广播器选择（`getApplicationListener`）出关注该事件的监听器，并依次执行监听任务。
+
+    
+
+8. preInstantiateSingletons：实例化 Bean 对象
 
     进行作用域判断：
-    
+
     - 若单例则尝试直接获取： `getSingleton()`，若为单例会注册在容器中
-    
+
     - 获取失败需要进行创建：`createBean(name, beanDefinition, args)`
-    
+
       > 给 Bean 填充属性：`applyPropertyValues(beanName, bean, beanDefinition);`
       >
       > 执行 Bean 的初始化方法和 BeanPostProcessor 的前置和后置处理方法：`initializeBean(beanName, bean, beanDefinition);`
@@ -60,9 +71,9 @@
       > // 2. 执行 BeanPostProcessor After 处理
       > wrappedBean = applyBeanPostProcessorsAfterInitialization(bean, beanName);
       > ```
-    
+
     统一通过 `(T) getObjectForBeanInstance(bean, name)` 进行返回。
-    
+
     在该方法中会判断是否为 FactoryBean ，若是则会查询缓存（当 FactoryBean 为 Singleton 时该 FactoryBean 会被加入到缓存中），否则会直接返回。
-    
+
     FactotyBean 会进行查询缓存操作（该缓存为被维护的一个 Map<String, Object> 属性），若不存在缓存则会对该 FactoryBean 进行记录并调用其 `getObject()` 方法构造代理对象。
